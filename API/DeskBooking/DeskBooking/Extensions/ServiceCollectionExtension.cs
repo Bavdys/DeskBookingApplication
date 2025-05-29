@@ -9,8 +9,8 @@ namespace DeskBooking.API.Extensions
     {
         internal static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                 x => x.MigrationsAssembly("DeskBooking.Infrastructure")));
             return services;
         }
     }

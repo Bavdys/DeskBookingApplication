@@ -7,7 +7,7 @@ namespace DeskBooking.Domain.Entities
     {
         public string URL { get; set; }
 
-        public int WorkspaceId { get; set; }
+        public Guid WorkspaceId { get; set; }
         public Workspace Workspace { get; set; }
     }
 }

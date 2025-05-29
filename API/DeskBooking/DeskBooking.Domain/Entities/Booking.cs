@@ -10,7 +10,7 @@ namespace DeskBooking.Domain.Entities
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
 
-        public int WorkspaceId { get; set; }
+        public Guid WorkspaceId { get; set; }
         public Workspace Workspace { get; set; }
     }
 }
