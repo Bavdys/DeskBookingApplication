@@ -12,7 +12,7 @@ namespace DeskBooking.Infrastructure.Config
 
             builder.Property(x => x.URL).IsRequired();
 
-            builder.HasOne(x => x.Workspace).WithMany().HasForeignKey(x => x.WorkspaceId);
+            builder.HasOne(x => x.Workspace).WithMany(x => x.Pictures).HasForeignKey(x => x.WorkspaceId);
         }
     }
 }

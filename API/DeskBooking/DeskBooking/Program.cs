@@ -9,7 +9,7 @@ namespace DeskBooking
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().MigrateDatabase().Run();
+            CreateWebHostBuilder(args).Build().MigrateAndSeedDatabase().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

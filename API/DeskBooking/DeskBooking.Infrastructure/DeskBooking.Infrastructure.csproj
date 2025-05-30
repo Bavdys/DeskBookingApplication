@@ -16,4 +16,8 @@
     <ProjectReference Include="..\DeskBooking.Domain\DeskBooking.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SeedData\" />
+  </ItemGroup>
+
 </Project>

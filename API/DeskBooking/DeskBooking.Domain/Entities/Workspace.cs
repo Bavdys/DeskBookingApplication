@@ -18,7 +18,8 @@ namespace DeskBooking.Domain.Entities
         public int BookingTypeId { get; set; }
         public BookingType BookingType { get; set; }
 
-        public ICollection<Picture> Pictures { get; set; }
-        public ICollection<WorkspaceCapacity> CapacityLink { get; set; }
+        public ICollection<Picture> Pictures { get; }
+        public ICollection<Booking> Bookings { get; }
+        public ICollection<WorkspaceCapacity> CapacityLink { get; }
     }
 }

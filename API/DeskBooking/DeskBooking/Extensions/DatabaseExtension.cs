@@ -9,7 +9,7 @@ namespace DeskBooking.API.Extensions
 {
     internal static class DatabaseExtension
     {
-        internal static IWebHost MigrateDatabase(this IWebHost webHost)
+        internal static IWebHost MigrateAndSeedDatabase(this IWebHost webHost)
         {
             using (var scope = webHost.Services.CreateScope())
             {
@@ -20,13 +20,14 @@ namespace DeskBooking.API.Extensions
                     try
                     {
                         context.Database.Migrate();
+                        ApplicationDbContextSeed.Seed(context);
                     }
                     catch (Exception ex)
                     {
                         var logger = services
                         .GetRequiredService<ILogger<Program>>();
                         logger.LogError(ex,
-                        "An error occurred while migrating the database.");
+                        "An error occurred while migrating or seeding the database.");
                         throw;
                     }
                 }

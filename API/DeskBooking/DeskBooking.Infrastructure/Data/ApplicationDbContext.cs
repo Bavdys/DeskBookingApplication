@@ -11,6 +11,7 @@ namespace DeskBooking.Infrastructure.Data
         public DbSet<Capacity> Capacities { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Workspace> Workspaces { get; set; }
+        public DbSet<WorkspaceCapacity> WorkspaceCapasities { get; set; } 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

@@ -8,6 +8,6 @@ namespace DeskBooking.Domain.Entities
     {
         public int Count { get; set; }
 
-        public ICollection<WorkspaceCapacity> WorkspaceLink { get; set; }
+        public ICollection<WorkspaceCapacity> WorkspaceLink { get; }
     }
 }

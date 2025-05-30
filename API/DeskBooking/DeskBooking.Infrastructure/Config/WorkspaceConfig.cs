@@ -19,7 +19,7 @@ namespace DeskBooking.Infrastructure.Config
             builder.Property(x => x.IsMicrophones).IsRequired();
             builder.Property(x => x.IsHeadphones).IsRequired();
 
-            builder.HasOne(x => x.BookingType).WithMany().HasForeignKey(x => x.BookingTypeId);
+            builder.HasOne(x => x.BookingType).WithMany(x => x.Workspaces).HasForeignKey(x => x.BookingTypeId);
         }
     }
 }

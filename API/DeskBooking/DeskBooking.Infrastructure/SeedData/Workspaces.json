@@ -1,0 +1,38 @@
+[
+  {
+    "Id": "dd4f4360-6674-4d16-9173-71f22d6fa1a1",
+    "Type": "Open space",
+    "Description": "A vibrant shared area perfect for freelancers or small teams who enjoy a collaborative atmosphere. Choose any available desk and get to work with flexibility and ease.",
+    "IsAirConditioner": true,
+    "IsGameRoom": true,
+    "IsWiFi": true,
+    "IsCoffee": true,
+    "IsMicrophones": false,
+    "IsHeadphones": false,
+    "BookingTypeId": 2
+  },
+  {
+    "Id": "c9cab461-5e37-4ab2-9a98-5e8717b88dc6",
+    "Type": "Private rooms",
+    "Description": "Ideal for focused work, video calls, or small team huddles. These fully enclosed rooms offer privacy and come in a variety of sizes to fit your needs.",
+    "IsAirConditioner": true,
+    "IsGameRoom": false,
+    "IsWiFi": true,
+    "IsCoffee": false,
+    "IsMicrophones": false,
+    "IsHeadphones": true,
+    "BookingTypeId": 1
+  },
+  {
+    "Id": "30896ae3-7c9a-4571-9af1-063c0e58bf4a",
+    "Type": "Meeting rooms",
+    "Description": "Designed for productive meetings, workshops, or client presentations. Equipped with screens, whiteboards, and comfortable seating to keep your sessions running smoothly.",
+    "IsAirConditioner": true,
+    "IsGameRoom": false,
+    "IsWiFi": true,
+    "IsCoffee": false,
+    "IsMicrophones": true,
+    "IsHeadphones": true,
+    "BookingTypeId": 1
+  }
+]
