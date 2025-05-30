@@ -1,8 +1,12 @@
-﻿using DeskBooking.Application.Mapper;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using DeskBooking.Application.Mapper;
+using DeskBooking.Infrastructure;
 using DeskBooking.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace DeskBooking.API.Extensions
 {
@@ -22,5 +26,20 @@ namespace DeskBooking.API.Extensions
             return services;
         }
 
+        internal static IServiceCollection AddSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeskBooking", Version = "v1" }));
+
+            return services;
+        }
+
+        internal static AutofacServiceProvider AddAutofac(this IServiceCollection services)
+        {
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterModule<InfrastructureAutoFacModule>();
+            containerBuilder.Populate(services);
+            var container = containerBuilder.Build();
+            return new AutofacServiceProvider(container);
+        }
     }
 }

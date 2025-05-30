@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\" />
+    <Folder Include="Dtos\ResponseDtos\" />
+    <Folder Include="Dtos\RequestDtos\" />
   </ItemGroup>
 
   <ItemGroup>

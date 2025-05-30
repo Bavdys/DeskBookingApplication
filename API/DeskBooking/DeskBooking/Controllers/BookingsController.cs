@@ -3,9 +3,7 @@ using System.Threading.Tasks;
 
 namespace DeskBooking.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class BookingsController : ControllerBase
+    public class BookingsController : BaseApiController
     {
         public BookingsController() { }
 
