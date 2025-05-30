@@ -22,6 +22,7 @@ namespace DeskBooking
 
             services.AddControllers();
             services.AddDbContext(_configuration);
+            services.AddAutoMapper();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeskBooking", Version = "v1" });

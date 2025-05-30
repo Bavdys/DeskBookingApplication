@@ -1,4 +1,5 @@
-﻿using DeskBooking.Infrastructure.Data;
+﻿using DeskBooking.Application.Mapper;
+using DeskBooking.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,5 +14,13 @@ namespace DeskBooking.API.Extensions
                  x => x.MigrationsAssembly("DeskBooking.Infrastructure")));
             return services;
         }
+
+        internal static IServiceCollection AddAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(AutoMapperConfig.RegisterMappings());
+
+            return services;
+        }
+
     }
 }

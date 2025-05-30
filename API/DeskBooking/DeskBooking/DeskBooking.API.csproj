@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DeskBooking.Application\DeskBooking.Application.csproj" />
     <ProjectReference Include="..\DeskBooking.Infrastructure\DeskBooking.Infrastructure.csproj" />
   </ItemGroup>
 
