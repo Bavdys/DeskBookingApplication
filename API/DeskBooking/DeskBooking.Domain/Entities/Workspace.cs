@@ -15,11 +15,11 @@ namespace DeskBooking.Domain.Entities
         public bool IsMicrophones { get; set; }
         public bool IsHeadphones { get; set; }
 
-        public int BookingTypeId { get; set; }
-        public BookingType BookingType { get; set; }
+        public int PlaceTypeId { get; set; }
+        public PlaceType PlaceType { get; set; }
 
-        public ICollection<Picture> Pictures { get; }
-        public ICollection<Booking> Bookings { get; }
-        public ICollection<WorkspaceCapacity> CapacityLink { get; }
+        public ICollection<Picture> Pictures { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Capacity> Capacities { get; set; }
     }
 }

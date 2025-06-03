@@ -9,7 +9,7 @@
     "IsCoffee": true,
     "IsMicrophones": false,
     "IsHeadphones": false,
-    "BookingTypeId": 2
+    "PlaceTypeId": 2
   },
   {
     "Id": "c9cab461-5e37-4ab2-9a98-5e8717b88dc6",
@@ -21,7 +21,7 @@
     "IsCoffee": false,
     "IsMicrophones": false,
     "IsHeadphones": true,
-    "BookingTypeId": 1
+    "PlaceTypeId": 1
   },
   {
     "Id": "30896ae3-7c9a-4571-9af1-063c0e58bf4a",
@@ -33,6 +33,6 @@
     "IsCoffee": false,
     "IsMicrophones": true,
     "IsHeadphones": true,
-    "BookingTypeId": 1
+    "PlaceTypeId": 1
   }
 ]

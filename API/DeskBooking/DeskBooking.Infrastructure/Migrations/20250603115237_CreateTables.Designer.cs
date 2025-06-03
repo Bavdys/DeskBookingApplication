@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeskBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250530110759_CreateTables")]
+    [Migration("20250603115237_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,9 @@ namespace DeskBooking.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CapacityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateFrom")
@@ -48,38 +51,11 @@ namespace DeskBooking.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CapacityId");
+
                     b.HasIndex("WorkspaceId");
 
                     b.ToTable("Booking");
-                });
-
-            modelBuilder.Entity("DeskBooking.Domain.Entities.BookingType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BookingType");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Room"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Desk"
-                        });
                 });
 
             modelBuilder.Entity("DeskBooking.Domain.Entities.Capacity", b =>
@@ -88,10 +64,18 @@ namespace DeskBooking.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Count")
+                    b.Property<int>("Amount")
                         .HasColumnType("int");
 
+                    b.Property<int>("Availability")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("WorkspaceId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("WorkspaceId");
 
                     b.ToTable("Capacity");
                 });
@@ -116,14 +100,40 @@ namespace DeskBooking.Infrastructure.Migrations
                     b.ToTable("Picture");
                 });
 
+            modelBuilder.Entity("DeskBooking.Domain.Entities.PlaceType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PlaceType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Type = "Room"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Type = "Desk"
+                        });
+                });
+
             modelBuilder.Entity("DeskBooking.Domain.Entities.Workspace", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("BookingTypeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -148,6 +158,9 @@ namespace DeskBooking.Infrastructure.Migrations
                     b.Property<bool>("IsWiFi")
                         .HasColumnType("bit");
 
+                    b.Property<int>("PlaceTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -155,33 +168,34 @@ namespace DeskBooking.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingTypeId");
+                    b.HasIndex("PlaceTypeId");
 
                     b.ToTable("Workspace");
                 });
 
-            modelBuilder.Entity("DeskBooking.Domain.Entities.WorkspaceCapacity", b =>
-                {
-                    b.Property<Guid>("WorkspaceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CapacityId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Availability")
-                        .HasColumnType("int");
-
-                    b.HasKey("WorkspaceId", "CapacityId");
-
-                    b.HasIndex("CapacityId");
-
-                    b.ToTable("WorkspaceCapacity");
-                });
-
             modelBuilder.Entity("DeskBooking.Domain.Entities.Booking", b =>
                 {
+                    b.HasOne("DeskBooking.Domain.Entities.Capacity", "Capacity")
+                        .WithMany("Bookings")
+                        .HasForeignKey("CapacityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DeskBooking.Domain.Entities.Workspace", "Workspace")
                         .WithMany("Bookings")
+                        .HasForeignKey("WorkspaceId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Capacity");
+
+                    b.Navigation("Workspace");
+                });
+
+            modelBuilder.Entity("DeskBooking.Domain.Entities.Capacity", b =>
+                {
+                    b.HasOne("DeskBooking.Domain.Entities.Workspace", "Workspace")
+                        .WithMany("Capacities")
                         .HasForeignKey("WorkspaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -202,49 +216,30 @@ namespace DeskBooking.Infrastructure.Migrations
 
             modelBuilder.Entity("DeskBooking.Domain.Entities.Workspace", b =>
                 {
-                    b.HasOne("DeskBooking.Domain.Entities.BookingType", "BookingType")
+                    b.HasOne("DeskBooking.Domain.Entities.PlaceType", "PlaceType")
                         .WithMany("Workspaces")
-                        .HasForeignKey("BookingTypeId")
+                        .HasForeignKey("PlaceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BookingType");
-                });
-
-            modelBuilder.Entity("DeskBooking.Domain.Entities.WorkspaceCapacity", b =>
-                {
-                    b.HasOne("DeskBooking.Domain.Entities.Capacity", "Capacity")
-                        .WithMany("WorkspaceLink")
-                        .HasForeignKey("CapacityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DeskBooking.Domain.Entities.Workspace", "Workspace")
-                        .WithMany("CapacityLink")
-                        .HasForeignKey("WorkspaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Capacity");
-
-                    b.Navigation("Workspace");
-                });
-
-            modelBuilder.Entity("DeskBooking.Domain.Entities.BookingType", b =>
-                {
-                    b.Navigation("Workspaces");
+                    b.Navigation("PlaceType");
                 });
 
             modelBuilder.Entity("DeskBooking.Domain.Entities.Capacity", b =>
                 {
-                    b.Navigation("WorkspaceLink");
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("DeskBooking.Domain.Entities.PlaceType", b =>
+                {
+                    b.Navigation("Workspaces");
                 });
 
             modelBuilder.Entity("DeskBooking.Domain.Entities.Workspace", b =>
                 {
                     b.Navigation("Bookings");
 
-                    b.Navigation("CapacityLink");
+                    b.Navigation("Capacities");
 
                     b.Navigation("Pictures");
                 });

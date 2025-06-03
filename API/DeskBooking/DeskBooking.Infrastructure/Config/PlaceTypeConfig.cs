@@ -4,25 +4,25 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DeskBooking.Infrastructure.Config
 {
-    public class BookingTypeConfig : IEntityTypeConfiguration<BookingType>
+    public class PlaceTypeConfig : IEntityTypeConfiguration<PlaceType>
     {
-        public void Configure(EntityTypeBuilder<BookingType> builder)
+        public void Configure(EntityTypeBuilder<PlaceType> builder)
         {
-            builder.ToTable("BookingType");
+            builder.ToTable("PlaceType");
 
-            builder.Property(x => x.Name).HasMaxLength(64).IsRequired();
+            builder.Property(x => x.Type).HasMaxLength(64).IsRequired();
 
             builder.HasData
                     (
-                        new BookingType
+                        new PlaceType
                         {
                             Id = 1,
-                            Name = "Room"
+                            Type = "Room"
                         },
-                        new BookingType
+                        new PlaceType
                         {
                             Id = 2,
-                            Name = "Desk"
+                            Type = "Desk"
                         }
                     );
         }

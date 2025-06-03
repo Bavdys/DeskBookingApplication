@@ -8,10 +8,14 @@ namespace DeskBooking.Domain.Specifications
         public BookingsWithWorkspaceSpecification() 
         {
             AddInclude(x => x.Workspace);
+            AddInclude("Workspace.Pictures");
+            AddInclude(x => x.Capacity);
         }
         public BookingsWithWorkspaceSpecification(Guid id) : base(x => x.Id == id)
         {
             AddInclude(x => x.Workspace);
+            AddInclude("Workspace.Pictures");
+            AddInclude(x => x.Capacity);
         }
     }
 }

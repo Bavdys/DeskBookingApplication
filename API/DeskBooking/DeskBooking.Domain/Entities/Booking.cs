@@ -12,5 +12,8 @@ namespace DeskBooking.Domain.Entities
 
         public Guid WorkspaceId { get; set; }
         public Workspace Workspace { get; set; }
+
+        public Guid CapacityId { get; set; }
+        public Capacity Capacity { get; set; }
     }
 }

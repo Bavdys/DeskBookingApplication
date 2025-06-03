@@ -15,7 +15,8 @@ namespace DeskBooking.Infrastructure.Config
             builder.Property(x => x.DateFrom).IsRequired();
             builder.Property(x => x.DateTo).IsRequired();
 
-            builder.HasOne(x => x.Workspace).WithMany(x => x.Bookings).HasForeignKey(x => x.WorkspaceId);
+            builder.HasOne(x => x.Capacity).WithMany(x => x.Bookings).HasForeignKey(x => x.CapacityId);
+            builder.HasOne(x => x.Workspace).WithMany(x => x.Bookings).HasForeignKey(x => x.WorkspaceId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

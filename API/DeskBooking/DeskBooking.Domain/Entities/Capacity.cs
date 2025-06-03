@@ -6,8 +6,12 @@ namespace DeskBooking.Domain.Entities
 {
     public class Capacity : BaseEntity<Guid>
     {
-        public int Count { get; set; }
+        public int Amount { get; set; }
+        public int Availability { get; set; }
 
-        public ICollection<WorkspaceCapacity> WorkspaceLink { get; }
+        public Guid WorkspaceId { get; set; }
+        public Workspace Workspace { get; set; }
+
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

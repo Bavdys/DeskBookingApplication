@@ -22,12 +22,6 @@ namespace DeskBooking.Infrastructure.Data
                 var workspaces = JsonSerializer.Deserialize<List<Workspace>>(workspacesData);
                 context.Workspaces.AddRange(workspaces);
             }
-            if (!context.WorkspaceCapasities.Any())
-            {
-                var workspaceCapacitiesData = File.ReadAllText("../DeskBooking.Infrastructure/SeedData/WorkspaceCapacities.json");
-                var workspaceCapacities = JsonSerializer.Deserialize<List<WorkspaceCapacity>>(workspaceCapacitiesData);
-                context.WorkspaceCapasities.AddRange(workspaceCapacities);
-            }
             if (!context.Pictures.Any())
             {
                 var picturesData = File.ReadAllText("../DeskBooking.Infrastructure/SeedData/Pictures.json");

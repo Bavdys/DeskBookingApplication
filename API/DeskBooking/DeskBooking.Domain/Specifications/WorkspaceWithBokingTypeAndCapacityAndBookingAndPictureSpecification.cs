@@ -6,10 +6,10 @@ namespace DeskBooking.Domain.Specifications
     {
         public WorkspaceWithBokingTypeAndCapacityAndBookingAndPictureSpecification()
         {
-            AddInclude(x => x.BookingType);
+            AddInclude(x => x.PlaceType);
             AddInclude(x => x.Bookings);
             AddInclude(x => x.Pictures);
-            AddInclude("CapacityLink.Capacity");
+            AddInclude(x => x.Capacities);
         }
     }
 }

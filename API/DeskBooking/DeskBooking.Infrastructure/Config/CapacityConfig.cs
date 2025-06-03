@@ -10,7 +10,10 @@ namespace DeskBooking.Infrastructure.Config
         {
             builder.ToTable("Capacity");
 
-            builder.Property(x => x.Count).IsRequired();
+            builder.Property(x => x.Amount).IsRequired();
+            builder.Property(x => x.Availability).IsRequired();
+
+            builder.HasOne(x => x.Workspace).WithMany(x => x.Capacities).HasForeignKey(x => x.WorkspaceId);
         }
     }
 }

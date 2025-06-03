@@ -8,28 +8,16 @@ namespace DeskBooking.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BookingType",
+                name: "PlaceType",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
+                    Type = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookingType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Capacity",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Count = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Capacity", x => x.Id);
+                    table.PrimaryKey("PK_PlaceType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,35 +33,33 @@ namespace DeskBooking.Infrastructure.Migrations
                     IsCoffee = table.Column<bool>(type: "bit", nullable: false),
                     IsMicrophones = table.Column<bool>(type: "bit", nullable: false),
                     IsHeadphones = table.Column<bool>(type: "bit", nullable: false),
-                    BookingTypeId = table.Column<int>(type: "int", nullable: false)
+                    PlaceTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Workspace", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Workspace_BookingType_BookingTypeId",
-                        column: x => x.BookingTypeId,
-                        principalTable: "BookingType",
+                        name: "FK_Workspace_PlaceType_PlaceTypeId",
+                        column: x => x.PlaceTypeId,
+                        principalTable: "PlaceType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Booking",
+                name: "Capacity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    DateFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateTo = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    Availability = table.Column<int>(type: "int", nullable: false),
                     WorkspaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Booking", x => x.Id);
+                    table.PrimaryKey("PK_Capacity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Booking_Workspace_WorkspaceId",
+                        name: "FK_Capacity_Workspace_WorkspaceId",
                         column: x => x.WorkspaceId,
                         principalTable: "Workspace",
                         principalColumn: "Id",
@@ -100,43 +86,56 @@ namespace DeskBooking.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkspaceCapacity",
+                name: "Booking",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    DateFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateTo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WorkspaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CapacityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Availability = table.Column<int>(type: "int", nullable: false)
+                    CapacityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkspaceCapacity", x => new { x.WorkspaceId, x.CapacityId });
+                    table.PrimaryKey("PK_Booking", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkspaceCapacity_Capacity_CapacityId",
+                        name: "FK_Booking_Capacity_CapacityId",
                         column: x => x.CapacityId,
                         principalTable: "Capacity",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_WorkspaceCapacity_Workspace_WorkspaceId",
+                        name: "FK_Booking_Workspace_WorkspaceId",
                         column: x => x.WorkspaceId,
                         principalTable: "Workspace",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
-                table: "BookingType",
-                columns: new[] { "Id", "Name" },
+                table: "PlaceType",
+                columns: new[] { "Id", "Type" },
                 values: new object[] { 1, "Room" });
 
             migrationBuilder.InsertData(
-                table: "BookingType",
-                columns: new[] { "Id", "Name" },
+                table: "PlaceType",
+                columns: new[] { "Id", "Type" },
                 values: new object[] { 2, "Desk" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Booking_CapacityId",
+                table: "Booking",
+                column: "CapacityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Booking_WorkspaceId",
                 table: "Booking",
+                column: "WorkspaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Capacity_WorkspaceId",
+                table: "Capacity",
                 column: "WorkspaceId");
 
             migrationBuilder.CreateIndex(
@@ -145,14 +144,9 @@ namespace DeskBooking.Infrastructure.Migrations
                 column: "WorkspaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Workspace_BookingTypeId",
+                name: "IX_Workspace_PlaceTypeId",
                 table: "Workspace",
-                column: "BookingTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkspaceCapacity_CapacityId",
-                table: "WorkspaceCapacity",
-                column: "CapacityId");
+                column: "PlaceTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -164,16 +158,13 @@ namespace DeskBooking.Infrastructure.Migrations
                 name: "Picture");
 
             migrationBuilder.DropTable(
-                name: "WorkspaceCapacity");
-
-            migrationBuilder.DropTable(
                 name: "Capacity");
 
             migrationBuilder.DropTable(
                 name: "Workspace");
 
             migrationBuilder.DropTable(
-                name: "BookingType");
+                name: "PlaceType");
         }
     }
 }
