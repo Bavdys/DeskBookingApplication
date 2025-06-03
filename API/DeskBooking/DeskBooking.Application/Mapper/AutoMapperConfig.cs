@@ -8,7 +8,7 @@ namespace DeskBooking.Application.Mapper
         {
             return new Type[]
             {
-
+                 typeof(DomainToResponseProfile)
             };
         }
 

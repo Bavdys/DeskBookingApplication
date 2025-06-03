@@ -38,6 +38,24 @@ namespace DeskBooking.Infrastructure.Core.Repositories
             return await ApplySpecification(spec).FirstOrDefaultAsync();
         }
 
+        public async Task AddAsync(T entity)
+        {
+            await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(T entity)
+        {;
+            _context.Set<T>().Remove(entity);
+            await _context.SaveChangesAsync();
+        }
+
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T, TI>.GetQuery(_context.Set<T>().AsQueryable(), spec);

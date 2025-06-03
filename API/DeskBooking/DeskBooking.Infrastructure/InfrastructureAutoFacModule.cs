@@ -9,6 +9,7 @@ namespace DeskBooking.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterGeneric(typeof(GenericRepository<,>)).As(typeof(IGenericRepository<,>));
+            builder.RegisterType(typeof(UnitOfWork)).As(typeof(IUnitOfWork));
         }
     }
 }

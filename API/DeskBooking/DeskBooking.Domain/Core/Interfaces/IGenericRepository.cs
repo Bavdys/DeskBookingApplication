@@ -10,5 +10,8 @@ namespace DeskBooking.Domain.Core.Interfaces
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<T> GetEntityWithSpec(ISpecification<T> spec);
         Task<IReadOnlyList<T>> GetAsync(ISpecification<T> spec);
+        Task AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
     }
 }

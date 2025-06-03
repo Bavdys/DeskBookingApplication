@@ -1,16 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DeskBooking.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace DeskBooking.API.Controllers
 {
     public class WorkspacesController : BaseApiController
     {
-        public WorkspacesController() { }
+        private readonly IWorkspaceApplicationService _workspaceApplicationService;
+        public WorkspacesController(IWorkspaceApplicationService workspaceApplicationService) 
+        {
+            _workspaceApplicationService = workspaceApplicationService;
+        }
 
         [HttpGet]
-        public async Task<ActionResult> GetWorkspaces() /////TODO
+        public async Task<IActionResult> GetWorkspaces()
         {
-            return Ok();
+            var workspacesResponse = await _workspaceApplicationService.GetAllWorkspaces();
+            
+            return Ok(workspacesResponse);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using DeskBooking.Application;
 using DeskBooking.Application.Mapper;
 using DeskBooking.Infrastructure;
 using DeskBooking.Infrastructure.Data;
@@ -37,6 +38,7 @@ namespace DeskBooking.API.Extensions
         {
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterModule<InfrastructureAutoFacModule>();
+            containerBuilder.RegisterModule<ApplicationAutoFacModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
             return new AutofacServiceProvider(container);
